@@ -53,7 +53,7 @@ const eventSchema = new mongoose.Schema(
 
 // Defensive guard: available seats can never exceed capacity, whatever
 // code path created/modified the document.
-eventSchema.pre('validate', function (next) {
+eventSchema.pre('validate', function () {
   if (this.availableSeats == null && this.capacity != null) {
     this.availableSeats = this.capacity;
   }
@@ -64,7 +64,7 @@ eventSchema.pre('validate', function (next) {
   ) {
     return next(new Error('Available seats cannot exceed capacity'));
   }
-  next();
+  
 });
 
 eventSchema.index({ organizer: 1 });
