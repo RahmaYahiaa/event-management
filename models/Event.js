@@ -71,4 +71,5 @@ eventSchema.index({ organizer: 1 });
 eventSchema.index({ status: 1 });
 eventSchema.index({ date: 1 });
 
-module.exports = mongoose.model('Event', eventSchema);
+// module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.models.Event || mongoose.model('Event', eventSchema);

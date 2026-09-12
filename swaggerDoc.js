@@ -234,6 +234,94 @@ const options = {
         }
       }
     },
+SummarizeEventRequest: {
+  type: "object",
+  required: ["title", "description"],
+  properties: {
+    title: {
+      type: "string",
+      example: "Technology Conference"
+    },
+    description: {
+      type: "string",
+      example: "A conference about modern web development and AI."
+    }
+  }
+},
+
+SummarizeEventResponse: {
+  type: "object",
+  properties: {
+    success: {
+      type: "boolean",
+      example: true
+    },
+    summary: {
+      type: "string",
+      example: "A technology conference focused on web development and AI."
+    }
+  }
+},
+    
+CreateReservationRequest: {
+  type: "object",
+  required: ["eventId", "ticketQuantity"],
+  properties: {
+    eventId: {
+      type: "string",
+      example: "64abc123456789"
+    },
+    ticketQuantity: {
+      type: "integer",
+      minimum: 1,
+      example: 2
+    }
+  }
+},
+
+Reservation: {
+  type: "object",
+  properties: {
+    _id: {
+      type: "string",
+      example: "64abc987654321"
+    },
+    user: {
+      type: "string",
+      example: "64abc123456789"
+    },
+    event: {
+      type: "string",
+      example: "64abc456789123"
+    },
+    ticketQuantity: {
+      type: "integer",
+      example: 2
+    },
+    status: {
+      type: "string",
+      enum: ["active", "cancelled"],
+      example: "active"
+    }
+  }
+},
+
+ReservationResponse: {
+  type: "object",
+  properties: {
+    success: {
+      type: "boolean",
+      example: true
+    },
+    msg: {
+      type: "string",
+      example: "Reservation created successfully"
+    },
+    reservation: {
+      $ref: "#/components/schemas/Reservation"
+    }
+  }
+},
 
     ErrorResponse: {
       type: "object",
