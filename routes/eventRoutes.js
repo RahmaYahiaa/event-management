@@ -6,6 +6,10 @@ const {
   updateEvent,
   deleteEvent,
 } = require('../controllers/eventController');
+const {
+  reserveTickets,
+  getEventAttendees,
+} = require('../controllers/reservationController');
 const authenticate = require('../middleware/authenticate');
 const authorize = require('../middleware/authorize');
 
@@ -121,5 +125,101 @@ router.patch('/:id', authenticate, authorize('organizer'), updateEvent);
  */
 
 router.delete('/:id', authenticate, authorize('organizer'), deleteEvent);
+
+
+/**
+ * @swagger
+ * /api/reservations/{id}/attendees:
+ *   get:
+ *     summary: Get attendees of an event
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Event ID
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [active, cancelled, all]
+ *           default: active
+ *         description: Filter attendees by reservation status
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 20
+ *     responses:
+ *       200:
+ *         description: Event attendees retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AttendeesListResponse'
+ *       400:
+ *         description: Invalid event ID or invalid status filter
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Only the event organizer or admin can view attendees
+ *       404:
+ *         description: Event not found
+ *       500:
+ *         description: Failed to fetch attendees
+ */
+router.get('/:id/attendees', authenticate, authorize('organizer', 'admin'), getEventAttendees);
+
+/**
+ * @swagger
+ * /api/reservations/{id}/reserve:
+ *   post:
+ *     summary: Reserve tickets for an event
+ *     tags: [Reservations]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Event ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ReserveTicketsRequest'
+ *     responses:
+ *       201:
+ *         description: Reservation created successfully
+ *       400:
+ *         description: Invalid event ID, invalid ticket quantity, cancelled/completed event, not enough seats, or duplicate active reservation
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Event not found
+ *       500:
+ *         description: Failed to create reservation
+ */
+
+router.post('/:id/reserve', authenticate, reserveTickets);
+
 
 module.exports = router;

@@ -306,6 +306,51 @@ Reservation: {
   }
 },
 
+ReservationListResponse: {
+  type: "object",
+  properties: {
+    success: {
+      type: "boolean",
+      example: true
+    },
+    count: {
+      type: "integer",
+      example: 2
+    },
+    total: {
+      type: "integer",
+      example: 5
+    },
+    page: {
+      type: "integer",
+      example: 1
+    },
+    pages: {
+      type: "integer",
+      example: 1
+    },
+    data: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Reservation"
+      }
+    }
+  }
+},
+
+ReservationSingleResponse: {
+  type: "object",
+  properties: {
+    success: {
+      type: "boolean",
+      example: true
+    },
+    data: {
+      $ref: "#/components/schemas/Reservation"
+    }
+  }
+},
+
 ReservationResponse: {
   type: "object",
   properties: {
@@ -319,6 +364,85 @@ ReservationResponse: {
     },
     reservation: {
       $ref: "#/components/schemas/Reservation"
+    }
+  }
+},
+ReserveTicketsRequest: {
+  type: "object",
+  required: ["ticketQuantity"],
+  properties: {
+    ticketQuantity: {
+      type: "integer",
+      minimum: 1,
+      example: 2
+    }
+  }
+},
+
+AttendeeReservation: {
+  type: "object",
+  properties: {
+    _id: {
+      type: "string",
+      example: "64abc987654321"
+    },
+    user: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          example: "Amira"
+        },
+        email: {
+          type: "string",
+          example: "amira@gmail.com"
+        }
+      }
+    },
+    event: {
+      type: "string",
+      example: "64abc456789123"
+    },
+    ticketQuantity: {
+      type: "integer",
+      example: 2
+    },
+    status: {
+      type: "string",
+      enum: ["active", "cancelled"],
+      example: "active"
+    }
+  }
+},
+
+AttendeesListResponse: {
+  type: "object",
+  properties: {
+    success: {
+      type: "boolean",
+      example: true
+    },
+    count: {
+      type: "integer",
+      example: 2
+    },
+    total: {
+      type: "integer",
+      example: 5
+    },
+    page: {
+      type: "integer",
+      example: 1
+    },
+    pages: {
+      type: "integer",
+      example: 1
+    },
+    data: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AttendeeReservation"
+      }
     }
   }
 },
