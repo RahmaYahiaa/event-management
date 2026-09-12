@@ -1,0 +1,15 @@
+{
+  "name": "reservation-system-mongo",
+  "version": "1.0.0",
+  "description": "Event reservation task (MongoDB/Mongoose version): view/cancel reservations, seat restoration, attendees, ownership validation, cancellation rules, edge cases.",
+  "main": "index.js",
+  "scripts": {
+    "seed": "node seed.js",
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongoose": "^9.10.0"
+  }
+}
